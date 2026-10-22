@@ -7,6 +7,9 @@ recipe's own build, as printed in the book, and a top-level build of all recipes
 
 ```text
 .
+├── .clang-format               C++ formatting
+├── .clang-tidy                 C++ static analysis
+├── .cmake-format.yaml          CMake formatting
 ├── CMakeLists.txt              top-level build
 ├── CMakePresets.json           configure, build, test and workflow presets
 ├── cmake/toolchains/           ARM cross-compiling toolchain files

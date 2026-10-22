@@ -84,3 +84,29 @@ These builds use the standard each recipe sets, and most of them require
 
 Chapter 4 (8051, SDCC) and chapter 15 (Arduino) are built with their own tools, as
 described in the book.
+
+## Formatting and static analysis
+
+The repository root holds the configuration of three tools:
+
+| File | Tool | Settings |
+|------|------|----------|
+| `.clang-format` | clang-format | Google style, C++20 |
+| `.clang-tidy` | clang-tidy | bugprone, clang-analyzer, concurrency, misc, modernize, performance, portability and readability checks, without the ones that flag C arrays, magic numbers and short names |
+| `.cmake-format.yaml` | cmake-format (cmakelang) | 80 columns, 2-space indent |
+
+The recipe sources and the recipes' own `CMakeLists.txt` files keep the book's
+formatting, so they match the printed listings; the formatters are applied to new
+or changed code only:
+
+```bash
+clang-format -i <file>.cpp
+cmake-format -i CMakeLists.txt Sources/CMakeLists.txt Sources/Chapter*/CMakeLists.txt cmake/toolchains/*.cmake
+```
+
+clang-tidy reads the compile commands of a configured preset:
+
+```bash
+clang-tidy -p out/build/linux-gcc-debug Sources/Chapter07/mutex/mutex.cpp
+run-clang-tidy -p out/build/linux-gcc-debug -quiet Chapter07/   # every file matching the pattern
+```

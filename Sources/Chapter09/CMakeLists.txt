@@ -17,10 +17,12 @@ find_library(GPIODCXX_LIBRARY gpiodcxx)
 if(GPIODCXX_INCLUDE_DIR AND GPIODCXX_LIBRARY)
   include(CheckCXXSourceCompiles)
   set(CMAKE_REQUIRED_INCLUDES ${GPIODCXX_INCLUDE_DIR})
-  check_cxx_source_compiles([[
+  check_cxx_source_compiles(
+    [[
     #include <gpiod.hpp>
     int main() { return gpiod::line_request::DIRECTION_OUTPUT; }
-  ]] GPIODCXX_HAS_V1_API)
+  ]]
+    GPIODCXX_HAS_V1_API)
   unset(CMAKE_REQUIRED_INCLUDES)
 endif()
 if(GPIODCXX_HAS_V1_API)

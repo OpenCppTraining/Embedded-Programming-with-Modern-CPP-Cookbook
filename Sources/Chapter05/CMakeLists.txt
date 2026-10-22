@@ -8,7 +8,7 @@ target_compile_definitions(loop3 PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 
 # All three recipes build an executable called loop.
 foreach(recipe loop loop2 loop3)
-  set_target_properties(${recipe} PROPERTIES
-    OUTPUT_NAME loop
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${recipe})
+  set_target_properties(
+    ${recipe} PROPERTIES OUTPUT_NAME loop RUNTIME_OUTPUT_DIRECTORY
+                                          ${CMAKE_CURRENT_BINARY_DIR}/${recipe})
 endforeach()
