@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 
 template<class T, size_t N>

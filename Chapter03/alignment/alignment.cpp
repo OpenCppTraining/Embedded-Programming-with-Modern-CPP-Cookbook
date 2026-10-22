@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 
 enum class Category: uint8_t {

@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 
 void SendDataToDevice(void* buffer, uint32_t size) {
