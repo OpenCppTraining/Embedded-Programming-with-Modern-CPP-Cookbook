@@ -1,9 +1,7 @@
 find_path(LIBUDEV_INCLUDE_DIR libudev.h)
 find_library(LIBUDEV_LIBRARY udev)
 if(LIBUDEV_INCLUDE_DIR AND LIBUDEV_LIBRARY)
-  # The recipe sets no standard; C++14 is the default of the GCC the book uses.
   add_executable(usb udev/udev.cpp)
-  set_target_properties(usb PROPERTIES CXX_STANDARD 14)
   target_include_directories(usb PRIVATE ${LIBUDEV_INCLUDE_DIR})
   target_link_libraries(usb PRIVATE ${LIBUDEV_LIBRARY})
 else()

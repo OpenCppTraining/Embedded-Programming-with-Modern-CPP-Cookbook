@@ -1,5 +1,4 @@
 add_executable(async async/async.cpp)
-set_target_properties(async PROPERTIES CXX_STANDARD 14)
 target_link_libraries(async PRIVATE Threads::Threads)
 target_link_options(async PRIVATE $<$<PLATFORM_ID:Linux>:-static-libstdc++>)
 

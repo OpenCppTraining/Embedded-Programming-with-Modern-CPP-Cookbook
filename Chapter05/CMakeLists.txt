@@ -1,5 +1,4 @@
 add_executable(loop loop/loop.cpp)
-set_target_properties(loop PROPERTIES CXX_STANDARD 14)
 
 add_executable(loop2 loop2/loop.cpp)
 target_compile_definitions(loop2 PRIVATE $<$<CONFIG:Debug>:DEBUG>)

@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 project(EmbeddedProgrammingCookbook LANGUAGES CXX)
 
-# Recipes that the book builds with another standard override CXX_STANDARD
-# on their own target.
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
