@@ -33,8 +33,9 @@ Each preset comes in `debug`, `dev` (RelWithDebInfo) and `release` variants:
 | Linux | `linux-arm-gnueabihf-*` | `arm-linux-gnueabihf-g++` (ARM, hard-float)    |
 | macOS | `macos-appleclang-*`    | `/usr/bin/clang++`                             |
 
-The executables go to `out/build/<preset>/ChapterNN/`. The three `loop` recipes of
-chapter 5 go to `out/build/<preset>/Chapter05/<recipe>/loop`.
+The recipes live in `Sources/ChapterNN/<recipe>/`. The executables go to
+`out/build/<preset>/Sources/ChapterNN/`; the three `loop` recipes of chapter 5 go to
+`out/build/<preset>/Sources/Chapter05/<recipe>/loop`.
 
 On Debian or Ubuntu, the toolchains come from:
 
