@@ -4,54 +4,29 @@
 # Embedded Programming with Modern C++ Cookbook
 Embedded Programming with Modern C++ Cookbook by Packt Publishing
 
-## Building
+## Contents
 
-Every recipe still has its own `CMakeLists.txt` and builds on its own as described
-in the book. The top-level `CMakeLists.txt` builds all of them at once, as C++20,
-with CMake 3.25 or newer and Ninja.
+| Path | What it holds |
+|------|---------------|
+| `Sources/ChapterNN/<recipe>/` | The recipes, each with the book's own `CMakeLists.txt` |
+| `CMakeLists.txt`, `CMakePresets.json` | A build of all recipes at once, as C++20 |
+| `cmake/toolchains/` | ARM cross-compiling toolchain files |
+| `Documentation/Technical/` | Technical documentation |
 
-```bash
-cmake --list-presets                        # presets for this machine
-cmake --workflow --preset linux-gcc-debug   # configure, build and test
-```
+## Documentation
 
-Or step by step:
+- [Architecture](Documentation/Technical/ARCHITECTURE.md): repository layout, the recipes, and how the builds are organized
+- [Building](Documentation/Technical/BUILDING.md): prerequisites and build commands
+- [Testing](Documentation/Technical/TESTING.md): tests, and running the recipes
+- [Installing](Documentation/Technical/INSTALL.md): running the recipes on an ARM board
+- [Packaging](Documentation/Technical/PACKAGE.md)
 
-```bash
-cmake --preset linux-gcc-debug
-cmake --build --preset build-linux-gcc-debug
-ctest --preset test-linux-gcc-debug
-```
-
-Each preset comes in `debug`, `dev` (RelWithDebInfo) and `release` variants:
-
-| Host  | Preset                  | Compiler                                       |
-|-------|-------------------------|------------------------------------------------|
-| Linux | `linux-gcc-*`           | `g++`                                          |
-| Linux | `linux-clang-*`         | `clang++`                                      |
-| Linux | `linux-arm-gnueabi-*`   | `arm-linux-gnueabi-g++` (ARM, soft-float)      |
-| Linux | `linux-arm-gnueabihf-*` | `arm-linux-gnueabihf-g++` (ARM, hard-float)    |
-| macOS | `macos-appleclang-*`    | `/usr/bin/clang++`                             |
-
-The recipes live in `Sources/ChapterNN/<recipe>/`. The executables go to
-`out/build/<preset>/Sources/ChapterNN/`; the three `loop` recipes of chapter 5 go to
-`out/build/<preset>/Sources/Chapter05/<recipe>/loop`.
-
-On Debian or Ubuntu, the toolchains come from:
+## Quick start
 
 ```bash
-sudo apt install cmake ninja-build g++ clang g++-arm-linux-gnueabi g++-arm-linux-gnueabihf
+cmake --list-presets
+cmake --workflow --preset linux-gcc-debug
 ```
-
-Some recipes need a library, and are skipped with a message when it is not found:
-`gpio` and `pwm` need wiringPi, `gpiod` needs the libgpiod 1.x C++ bindings, `usb`
-needs libudev and `flat` needs FlatBuffers. The ARM presets look for these libraries
-under `/usr/arm-linux-gnueabi` and `/usr/arm-linux-gnueabihf`. On macOS, the recipes
-that use Linux-only interfaces are skipped as well. The recipes have no automated
-tests, so the test step runs none.
-
-Chapter 4 (8051, SDCC) and chapter 15 (Arduino) are built with their own tools, as
-described in the book.
 
 ## Erratas
 
