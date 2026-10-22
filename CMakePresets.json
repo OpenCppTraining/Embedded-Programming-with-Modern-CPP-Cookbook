@@ -1,0 +1,672 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "conf-common",
+      "description": "Settings shared by every configure preset",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "conf-linux-common",
+      "description": "Settings shared by every Linux preset",
+      "hidden": true,
+      "inherits": "conf-common",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "conf-linux-gcc-common",
+      "description": "Linux with GCC",
+      "hidden": true,
+      "inherits": "conf-linux-common",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "linux-gcc-debug",
+      "displayName": "GCC Debug",
+      "description": "Linux, GCC, Debug",
+      "inherits": "conf-linux-gcc-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-gcc-dev",
+      "displayName": "GCC Dev",
+      "description": "Linux, GCC, RelWithDebInfo",
+      "inherits": "conf-linux-gcc-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "linux-gcc-release",
+      "displayName": "GCC Release",
+      "description": "Linux, GCC, Release",
+      "inherits": "conf-linux-gcc-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "conf-linux-clang-common",
+      "description": "Linux with Clang",
+      "hidden": true,
+      "inherits": "conf-linux-common",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
+    },
+    {
+      "name": "linux-clang-debug",
+      "displayName": "Clang Debug",
+      "description": "Linux, Clang, Debug",
+      "inherits": "conf-linux-clang-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-clang-dev",
+      "displayName": "Clang Dev",
+      "description": "Linux, Clang, RelWithDebInfo",
+      "inherits": "conf-linux-clang-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "linux-clang-release",
+      "displayName": "Clang Release",
+      "description": "Linux, Clang, Release",
+      "inherits": "conf-linux-clang-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "conf-linux-arm-gnueabi-common",
+      "description": "Linux, cross-compiling for ARM soft-float (arm-linux-gnueabi-g++)",
+      "hidden": true,
+      "inherits": "conf-linux-common",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/arm-linux-gnueabi.cmake"
+    },
+    {
+      "name": "linux-arm-gnueabi-debug",
+      "displayName": "ARM soft-float Debug",
+      "description": "Linux, ARM soft-float (arm-linux-gnueabi-g++), Debug",
+      "inherits": "conf-linux-arm-gnueabi-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-arm-gnueabi-dev",
+      "displayName": "ARM soft-float Dev",
+      "description": "Linux, ARM soft-float (arm-linux-gnueabi-g++), RelWithDebInfo",
+      "inherits": "conf-linux-arm-gnueabi-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "linux-arm-gnueabi-release",
+      "displayName": "ARM soft-float Release",
+      "description": "Linux, ARM soft-float (arm-linux-gnueabi-g++), Release",
+      "inherits": "conf-linux-arm-gnueabi-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "conf-linux-arm-gnueabihf-common",
+      "description": "Linux, cross-compiling for ARM hard-float (arm-linux-gnueabihf-g++)",
+      "hidden": true,
+      "inherits": "conf-linux-common",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/arm-linux-gnueabihf.cmake"
+    },
+    {
+      "name": "linux-arm-gnueabihf-debug",
+      "displayName": "ARM hard-float Debug",
+      "description": "Linux, ARM hard-float (arm-linux-gnueabihf-g++), Debug",
+      "inherits": "conf-linux-arm-gnueabihf-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-arm-gnueabihf-dev",
+      "displayName": "ARM hard-float Dev",
+      "description": "Linux, ARM hard-float (arm-linux-gnueabihf-g++), RelWithDebInfo",
+      "inherits": "conf-linux-arm-gnueabihf-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "linux-arm-gnueabihf-release",
+      "displayName": "ARM hard-float Release",
+      "description": "Linux, ARM hard-float (arm-linux-gnueabihf-g++), Release",
+      "inherits": "conf-linux-arm-gnueabihf-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "conf-macos-common",
+      "description": "Settings shared by every Darwin preset",
+      "hidden": true,
+      "inherits": "conf-common",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "conf-macos-appleclang-common",
+      "description": "Darwin with AppleClang",
+      "hidden": true,
+      "inherits": "conf-macos-common",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++"
+      }
+    },
+    {
+      "name": "macos-appleclang-debug",
+      "displayName": "AppleClang Debug",
+      "description": "Darwin, AppleClang, Debug",
+      "inherits": "conf-macos-appleclang-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "macos-appleclang-dev",
+      "displayName": "AppleClang Dev",
+      "description": "Darwin, AppleClang, RelWithDebInfo",
+      "inherits": "conf-macos-appleclang-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "macos-appleclang-release",
+      "displayName": "AppleClang Release",
+      "description": "Darwin, AppleClang, Release",
+      "inherits": "conf-macos-appleclang-common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-linux-common",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "build-linux-gcc-debug",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-gcc-debug"
+    },
+    {
+      "name": "build-linux-gcc-dev",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-gcc-dev"
+    },
+    {
+      "name": "build-linux-gcc-release",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-gcc-release"
+    },
+    {
+      "name": "build-linux-clang-debug",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-clang-debug"
+    },
+    {
+      "name": "build-linux-clang-dev",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-clang-dev"
+    },
+    {
+      "name": "build-linux-clang-release",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-clang-release"
+    },
+    {
+      "name": "build-linux-arm-gnueabi-debug",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-arm-gnueabi-debug"
+    },
+    {
+      "name": "build-linux-arm-gnueabi-dev",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-arm-gnueabi-dev"
+    },
+    {
+      "name": "build-linux-arm-gnueabi-release",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-arm-gnueabi-release"
+    },
+    {
+      "name": "build-linux-arm-gnueabihf-debug",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-arm-gnueabihf-debug"
+    },
+    {
+      "name": "build-linux-arm-gnueabihf-dev",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-arm-gnueabihf-dev"
+    },
+    {
+      "name": "build-linux-arm-gnueabihf-release",
+      "inherits": "build-linux-common",
+      "configurePreset": "linux-arm-gnueabihf-release"
+    },
+    {
+      "name": "build-macos-common",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "build-macos-appleclang-debug",
+      "inherits": "build-macos-common",
+      "configurePreset": "macos-appleclang-debug"
+    },
+    {
+      "name": "build-macos-appleclang-dev",
+      "inherits": "build-macos-common",
+      "configurePreset": "macos-appleclang-dev"
+    },
+    {
+      "name": "build-macos-appleclang-release",
+      "inherits": "build-macos-common",
+      "configurePreset": "macos-appleclang-release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-linux-common",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "test-linux-gcc-debug",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-gcc-debug"
+    },
+    {
+      "name": "test-linux-gcc-dev",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-gcc-dev"
+    },
+    {
+      "name": "test-linux-gcc-release",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-gcc-release"
+    },
+    {
+      "name": "test-linux-clang-debug",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-clang-debug"
+    },
+    {
+      "name": "test-linux-clang-dev",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-clang-dev"
+    },
+    {
+      "name": "test-linux-clang-release",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-clang-release"
+    },
+    {
+      "name": "test-linux-arm-gnueabi-debug",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-arm-gnueabi-debug"
+    },
+    {
+      "name": "test-linux-arm-gnueabi-dev",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-arm-gnueabi-dev"
+    },
+    {
+      "name": "test-linux-arm-gnueabi-release",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-arm-gnueabi-release"
+    },
+    {
+      "name": "test-linux-arm-gnueabihf-debug",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-arm-gnueabihf-debug"
+    },
+    {
+      "name": "test-linux-arm-gnueabihf-dev",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-arm-gnueabihf-dev"
+    },
+    {
+      "name": "test-linux-arm-gnueabihf-release",
+      "inherits": "test-linux-common",
+      "configurePreset": "linux-arm-gnueabihf-release"
+    },
+    {
+      "name": "test-macos-common",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "test-macos-appleclang-debug",
+      "inherits": "test-macos-common",
+      "configurePreset": "macos-appleclang-debug"
+    },
+    {
+      "name": "test-macos-appleclang-dev",
+      "inherits": "test-macos-common",
+      "configurePreset": "macos-appleclang-dev"
+    },
+    {
+      "name": "test-macos-appleclang-release",
+      "inherits": "test-macos-common",
+      "configurePreset": "macos-appleclang-release"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "linux-gcc-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-gcc-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-gcc-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-gcc-debug"
+        }
+      ]
+    },
+    {
+      "name": "linux-gcc-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-gcc-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-gcc-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-gcc-dev"
+        }
+      ]
+    },
+    {
+      "name": "linux-gcc-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-gcc-release"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-gcc-release"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-gcc-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-clang-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-clang-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-clang-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-clang-debug"
+        }
+      ]
+    },
+    {
+      "name": "linux-clang-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-clang-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-clang-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-clang-dev"
+        }
+      ]
+    },
+    {
+      "name": "linux-clang-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-clang-release"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-clang-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm-gnueabi-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm-gnueabi-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-arm-gnueabi-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-arm-gnueabi-debug"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm-gnueabi-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm-gnueabi-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-arm-gnueabi-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-arm-gnueabi-dev"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm-gnueabi-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm-gnueabi-release"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-arm-gnueabi-release"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-arm-gnueabi-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm-gnueabihf-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm-gnueabihf-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-arm-gnueabihf-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-arm-gnueabihf-debug"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm-gnueabihf-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm-gnueabihf-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-arm-gnueabihf-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-arm-gnueabihf-dev"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm-gnueabihf-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm-gnueabihf-release"
+        },
+        {
+          "type": "build",
+          "name": "build-linux-arm-gnueabihf-release"
+        },
+        {
+          "type": "test",
+          "name": "test-linux-arm-gnueabihf-release"
+        }
+      ]
+    },
+    {
+      "name": "macos-appleclang-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "macos-appleclang-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-macos-appleclang-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-macos-appleclang-debug"
+        }
+      ]
+    },
+    {
+      "name": "macos-appleclang-dev",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "macos-appleclang-dev"
+        },
+        {
+          "type": "build",
+          "name": "build-macos-appleclang-dev"
+        },
+        {
+          "type": "test",
+          "name": "test-macos-appleclang-dev"
+        }
+      ]
+    },
+    {
+      "name": "macos-appleclang-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "macos-appleclang-release"
+        },
+        {
+          "type": "build",
+          "name": "build-macos-appleclang-release"
+        },
+        {
+          "type": "test",
+          "name": "test-macos-appleclang-release"
+        }
+      ]
+    }
+  ]
+}
