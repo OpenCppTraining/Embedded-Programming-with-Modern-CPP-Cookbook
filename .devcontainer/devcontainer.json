@@ -1,0 +1,23 @@
+{
+  "name": "Embedded Programming with Modern C++ Cookbook",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "ubuntu",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools",
+        "cheshirekow.cmake-format"
+      ],
+      "settings": {
+        "cmake.useCMakePresets": "always",
+        "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+        "C_Cpp.intelliSenseEngine": "disabled"
+      }
+    }
+  }
+}

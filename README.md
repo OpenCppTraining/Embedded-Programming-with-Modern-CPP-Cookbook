@@ -11,12 +11,13 @@ Embedded Programming with Modern C++ Cookbook by Packt Publishing
 | `Sources/ChapterNN/<recipe>/` | The recipes, each with the book's own `CMakeLists.txt` |
 | `CMakeLists.txt`, `CMakePresets.json` | A build of all recipes at once, as C++20 |
 | `cmake/toolchains/` | ARM cross-compiling toolchain files |
+| `Dockerfile`, `.devcontainer/` | Linux build environment for Docker and Dev Containers |
 | `Documentation/Technical/` | Technical documentation |
 
 ## Documentation
 
 - [Architecture](Documentation/Technical/ARCHITECTURE.md): repository layout, the recipes, and how the builds are organized
-- [Building](Documentation/Technical/BUILDING.md): prerequisites and build commands
+- [Building](Documentation/Technical/BUILDING.md): prerequisites, build commands, Docker and Dev Containers
 - [Testing](Documentation/Technical/TESTING.md): tests, and running the recipes
 - [Installing](Documentation/Technical/INSTALL.md): running the recipes on an ARM board
 - [Packaging](Documentation/Technical/PACKAGE.md)

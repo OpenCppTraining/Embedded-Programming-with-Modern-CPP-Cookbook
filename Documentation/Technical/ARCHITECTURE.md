@@ -10,6 +10,8 @@ recipe's own build, as printed in the book, and a top-level build of all recipes
 ├── .clang-format               C++ formatting
 ├── .clang-tidy                 C++ static analysis
 ├── .cmake-format.yaml          CMake formatting
+├── .devcontainer/              Dev Container, built from the Dockerfile
+├── Dockerfile                  Linux build environment for the linux-* presets
 ├── CMakeLists.txt              top-level build
 ├── CMakePresets.json           configure, build, test and workflow presets
 ├── cmake/toolchains/           ARM cross-compiling toolchain files

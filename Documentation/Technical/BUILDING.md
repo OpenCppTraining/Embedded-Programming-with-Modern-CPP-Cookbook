@@ -37,6 +37,47 @@ such as `-- libudev not found: skipping usb`. The ARM presets look for libraries
 only under `/usr/arm-linux-gnueabi` or `/usr/arm-linux-gnueabihf`, so they skip
 these recipes unless the library is installed there.
 
+## Building in a container
+
+`Dockerfile` describes an Ubuntu 24.04 image with every toolchain of the `linux-*`
+presets, the optional libraries except wiringPi, `qemu-user`, gdb, clang-format,
+clang-tidy, clangd and cmake-format. It runs the Linux and ARM presets on any
+machine with Docker, macOS included.
+
+### Docker
+
+```bash
+docker build -t embedded-cookbook .
+docker run --rm -v "$PWD":/workspace embedded-cookbook cmake --workflow --preset linux-gcc-debug
+docker run --rm -it -v "$PWD":/workspace embedded-cookbook bash   # a shell
+```
+
+The container runs as the image's `ubuntu` user, UID 1000. On a Linux host where
+your UID differs, add `--user "$(id -u):$(id -g)"` so that `out/` stays yours.
+Build trees go to `out/build/<preset>` in the checkout, as on the host; a preset
+configured in the container and on a Linux host at once needs `--fresh` when you
+switch, because the source path differs.
+
+### Dev Container
+
+`.devcontainer/devcontainer.json` builds the same image. In VS Code, install the
+Dev Containers extension, open the repository and run **Dev Containers: Reopen in
+Container**. The container comes with:
+
+- CMake Tools, set to use the presets; it copies the active preset's
+  `compile_commands.json` to the repository root;
+- clangd, which reads that file, `.clang-format` and `.clang-tidy`;
+- C/C++ (cpptools) for debugging with gdb, with its IntelliSense off in favor of
+  clangd;
+- cmake-format.
+
+Outside VS Code, the [Dev Container CLI](https://github.com/devcontainers/cli) runs it:
+
+```bash
+devcontainer up --workspace-folder .
+devcontainer exec --workspace-folder . cmake --workflow --preset linux-gcc-debug
+```
+
 ## Build everything
 
 ```bash
