@@ -39,7 +39,7 @@ these recipes unless the library is installed there.
 
 ## Building in a container
 
-`Dockerfile` describes an Ubuntu 24.04 image with every toolchain of the `linux-*`
+`Tools/docker/Dockerfile` describes an Ubuntu 24.04 image with every toolchain of the `linux-*`
 presets, the optional libraries except wiringPi, `qemu-user`, gdb, clang-format,
 clang-tidy, clangd and cmake-format. It runs the Linux and ARM presets on any
 machine with Docker, macOS included.
@@ -47,16 +47,19 @@ machine with Docker, macOS included.
 ### Docker
 
 ```bash
-docker build -t embedded-cookbook .
-docker run --rm -v "$PWD":/workspace embedded-cookbook cmake --workflow --preset linux-gcc-debug
-docker run --rm -it -v "$PWD":/workspace embedded-cookbook bash   # a shell
+docker build -f Tools/docker/Dockerfile -t embedded-cookbook .
+docker run --rm -e COOKBOOK_ENV=docker -v "$PWD":/workspace embedded-cookbook cmake --workflow --preset linux-gcc-debug
+docker run --rm -it -e COOKBOOK_ENV=docker -v "$PWD":/workspace embedded-cookbook bash   # a shell
 ```
 
 The container runs as the image's `ubuntu` user, UID 1000. On a Linux host where
 your UID differs, add `--user "$(id -u):$(id -g)"` so that `out/` stays yours.
-Build trees go to `out/build/<preset>` in the checkout, as on the host; a preset
-configured in the container and on a Linux host at once needs `--fresh` when you
-switch, because the source path differs.
+Build trees go to `out/build/<env>-<preset>`, where `<env>` is the `COOKBOOK_ENV`
+environment variable: `darwin` for the macOS presets, `docker` in the Dev Container.
+Pass `-e COOKBOOK_ENV=docker` to `docker run` for the same split. On a native Linux
+host, set `COOKBOOK_ENV` yourself (for example `export COOKBOOK_ENV=linux`) or the
+`linux-*` presets configure into `out/build/-<preset>`. Separate trees mean host and
+container never clash over the source path.
 
 ### Dev Container
 
@@ -104,9 +107,9 @@ cmake --build --preset build-linux-gcc-debug --target mutex
 
 ## Output
 
-Executables go to `out/build/<preset>/Sources/ChapterNN/`. The three `loop` recipes
-of chapter 5 go to `out/build/<preset>/Sources/Chapter05/<recipe>/loop`. Every
-preset also writes `out/build/<preset>/compile_commands.json` for clangd and other
+Executables go to `out/build/<env>-<preset>/Sources/ChapterNN/`. The three `loop` recipes
+of chapter 5 go to `out/build/<env>-<preset>/Sources/Chapter05/<recipe>/loop`. Every
+preset also writes `out/build/<env>-<preset>/compile_commands.json` for clangd and other
 tools.
 
 ## The book's per-recipe builds
@@ -134,7 +137,7 @@ The repository root holds the configuration of three tools:
 |------|------|----------|
 | `.clang-format` | clang-format | Google style, C++20 |
 | `.clang-tidy` | clang-tidy | bugprone, clang-analyzer, concurrency, misc, modernize, performance, portability and readability checks, without the ones that flag C arrays, magic numbers and short names |
-| `.cmake-format.yaml` | cmake-format (cmakelang) | 80 columns, 2-space indent |
+| `Tools/cmake/.cmake-format.yaml` | cmake-format (cmakelang) | 80 columns, 2-space indent |
 
 The recipe sources and the recipes' own `CMakeLists.txt` files keep the book's
 formatting, so they match the printed listings; the formatters are applied to new
@@ -142,12 +145,12 @@ or changed code only:
 
 ```bash
 clang-format -i <file>.cpp
-cmake-format -i CMakeLists.txt Sources/CMakeLists.txt Sources/Chapter*/CMakeLists.txt cmake/toolchains/*.cmake
+cmake-format --config-files Tools/cmake/.cmake-format.yaml -i CMakeLists.txt Sources/CMakeLists.txt Sources/Chapter*/CMakeLists.txt Tools/cmake/toolchains/*.cmake
 ```
 
 clang-tidy reads the compile commands of a configured preset:
 
 ```bash
-clang-tidy -p out/build/linux-gcc-debug Sources/Chapter07/mutex/mutex.cpp
-run-clang-tidy -p out/build/linux-gcc-debug -quiet Chapter07/   # every file matching the pattern
+clang-tidy -p out/build/<env>-linux-gcc-debug Sources/Chapter07/mutex/mutex.cpp
+run-clang-tidy -p out/build/<env>-linux-gcc-debug -quiet Chapter07/   # every file matching the pattern
 ```

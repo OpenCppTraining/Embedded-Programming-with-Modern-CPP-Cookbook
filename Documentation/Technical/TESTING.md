@@ -12,7 +12,7 @@ tests: they print `No tests were found!!!` and succeed.
 Native builds run in place:
 
 ```bash
-out/build/linux-gcc-debug/Sources/Chapter03/sizet
+out/build/docker-linux-gcc-debug/Sources/Chapter03/sizet
 ```
 
 ARM builds run on a Linux host under QEMU user-mode emulation (`sudo apt install
@@ -20,8 +20,8 @@ qemu-user` on Debian or Ubuntu), with `-L` pointing at the ARM runtime installed
 by the cross compiler packages:
 
 ```bash
-qemu-arm -L /usr/arm-linux-gnueabihf out/build/linux-arm-gnueabihf-debug/Sources/Chapter02/hello
-qemu-arm -L /usr/arm-linux-gnueabi out/build/linux-arm-gnueabi-debug/Sources/Chapter02/hello
+qemu-arm -L /usr/arm-linux-gnueabihf out/build/docker-linux-arm-gnueabihf-debug/Sources/Chapter02/hello
+qemu-arm -L /usr/arm-linux-gnueabi out/build/docker-linux-arm-gnueabi-debug/Sources/Chapter02/hello
 ```
 
 ## Adding tests

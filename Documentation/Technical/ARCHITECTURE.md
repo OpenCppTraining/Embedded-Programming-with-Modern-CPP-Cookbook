@@ -9,12 +9,11 @@ recipe's own build, as printed in the book, and a top-level build of all recipes
 .
 ├── .clang-format               C++ formatting
 ├── .clang-tidy                 C++ static analysis
-├── .cmake-format.yaml          CMake formatting
-├── .devcontainer/              Dev Container, built from the Dockerfile
-├── Dockerfile                  Linux build environment for the linux-* presets
+├── .devcontainer/              Dev Container, built from Tools/docker/Dockerfile
+├── Tools/docker/               Dockerfile: Linux build environment for the linux-* presets
 ├── CMakeLists.txt              top-level build
 ├── CMakePresets.json           configure, build, test and workflow presets
-├── cmake/toolchains/           ARM cross-compiling toolchain files
+├── Tools/cmake/                cmake-format config, ARM cross-compiling toolchain files
 ├── Documentation/Technical/    this documentation
 └── Sources/
     ├── CMakeLists.txt          adds every chapter to the top-level build
@@ -101,7 +100,7 @@ skips them, with a message at configure time, instead of failing:
 keep each setting in one place:
 
 ```text
-conf-common                          Ninja, out/build/<preset>, compile_commands.json
+conf-common                          Ninja, out/build/<env>-<preset>, compile_commands.json
 └─ conf-<os>-common                  only on that host OS (Linux, Darwin)
    └─ conf-<os>-<toolchain>-common   compiler, or toolchain file for ARM
       └─ <os>-<toolchain>-<config>   CMAKE_BUILD_TYPE
@@ -115,7 +114,7 @@ that can run on the current machine.
 ## Cross-compiling
 
 The `linux-arm-gnueabi-*` and `linux-arm-gnueabihf-*` presets use the toolchain
-files in `cmake/toolchains/`. Each one sets the target system (Linux on ARM), the
+files in `Tools/cmake/toolchains/`. Each one sets the target system (Linux on ARM), the
 cross compiler, and limits library and header lookups to
 `/usr/arm-linux-gnueabi` or `/usr/arm-linux-gnueabihf`, where the Debian and
 Ubuntu cross compiler packages install the target's C and C++ runtime. Libraries

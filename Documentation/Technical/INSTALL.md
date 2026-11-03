@@ -5,7 +5,7 @@ run from the build tree, or are copied to the board they are meant for.
 
 ## On the build machine
 
-Run the executables from `out/build/<preset>/Sources/ChapterNN/`; see
+Run the executables from `out/build/<env>-<preset>/Sources/ChapterNN/`; see
 [BUILDING.md](BUILDING.md#output).
 
 ## On an ARM board
@@ -22,7 +22,7 @@ Run the executables from `out/build/<preset>/Sources/ChapterNN/`; see
 3. Copy the executables you need to the board and run them there:
 
    ```bash
-   scp out/build/linux-arm-gnueabihf-release/Sources/Chapter07/mutex <user>@<board>:
+   scp out/build/docker-linux-arm-gnueabihf-release/Sources/Chapter07/mutex <user>@<board>:
    ssh <user>@<board> ./mutex
    ```
 

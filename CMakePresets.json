@@ -11,8 +11,8 @@
       "description": "Settings shared by every configure preset",
       "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
+      "binaryDir": "${sourceDir}/out/build/$env{COOKBOOK_ENV}-${presetName}",
+      "installDir": "${sourceDir}/out/install/$env{COOKBOOK_ENV}-${presetName}",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
@@ -105,7 +105,7 @@
       "description": "Linux, cross-compiling for ARM soft-float (arm-linux-gnueabi-g++)",
       "hidden": true,
       "inherits": "conf-linux-common",
-      "toolchainFile": "${sourceDir}/cmake/toolchains/arm-linux-gnueabi.cmake"
+      "toolchainFile": "${sourceDir}/Tools/cmake/toolchains/arm-linux-gnueabi.cmake"
     },
     {
       "name": "linux-arm-gnueabi-debug",
@@ -139,7 +139,7 @@
       "description": "Linux, cross-compiling for ARM hard-float (arm-linux-gnueabihf-g++)",
       "hidden": true,
       "inherits": "conf-linux-common",
-      "toolchainFile": "${sourceDir}/cmake/toolchains/arm-linux-gnueabihf.cmake"
+      "toolchainFile": "${sourceDir}/Tools/cmake/toolchains/arm-linux-gnueabihf.cmake"
     },
     {
       "name": "linux-arm-gnueabihf-debug",
@@ -173,6 +173,9 @@
       "description": "Settings shared by every Darwin preset",
       "hidden": true,
       "inherits": "conf-common",
+      "environment": {
+        "COOKBOOK_ENV": "darwin"
+      },
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",

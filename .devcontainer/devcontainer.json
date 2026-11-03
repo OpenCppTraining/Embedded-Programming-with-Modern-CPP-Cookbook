@@ -1,10 +1,13 @@
 {
   "name": "Embedded Programming with Modern C++ Cookbook",
   "build": {
-    "dockerfile": "../Dockerfile",
+    "dockerfile": "../Tools/docker/Dockerfile",
     "context": ".."
   },
   "remoteUser": "ubuntu",
+  "containerEnv": {
+    "COOKBOOK_ENV": "docker"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
